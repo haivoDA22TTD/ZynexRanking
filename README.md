@@ -125,4 +125,4 @@ MIT License
 
 ## 👨‍💻 Author
 
-Made with ❤️ using React, TypeScript & Tailwind CSS
+Made with haivoDev
