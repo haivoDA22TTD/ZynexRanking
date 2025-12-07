@@ -1,6 +1,15 @@
 import type { Game } from '../types/game';
 
-const API_BASE_URL = 'https://www.freetogame.com/api';
+
+const response = await fetch("https://www.freetogame.com/api/games");
+
+
+const API_URL = import.meta.env.DEV
+  ? "https://www.freetogame.com/api/games"  // dev thì gọi thẳng cho nhanh
+  : "/api/games";                           // production thì qua proxy của mình
+
+const response = await fetch(API_URL);
+const games = await response.json();
 
 export const gameApi = {
   getAllGames: async (): Promise<Game[]> => {
