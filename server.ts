@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -42,7 +42,7 @@ app.get('/api/games', async (req, res) => {
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Handle client-side routing - MUST be last
-app.get('/*', (_req, res) => {
+app.use((_req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
