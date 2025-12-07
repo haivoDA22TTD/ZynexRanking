@@ -1,31 +1,65 @@
-// src/services/api.ts
-
 const GAMES_API_URL = import.meta.env.DEV
-  ? "https://www.freetogame.com/api/games"   
-  : "/api/games";                            
+  ? "https://www.freetogame.com/api/games"
+  : "/api/games";
+
+// Kiểu dữ liệu cho game
+export interface Game {
+  id: number;
+  title: string;
+  thumbnail: string;
+  short_description: string;
+  game_url: string;
+  genre: string;
+  platform: string;
+  publisher: string;
+  developer: string;
+  release_date: string;
+  freetogame_profile_url: string;
+}
+
 // Lấy toàn bộ games
-export const getAllGames = async () => {
-  const res = await fetch(GAMES_API_URL);
-  if (!res.ok) throw new Error("Failed to fetch games");
-  const data = await res.json();
-  return data;
+export const getAllGames = async (): Promise<Game[]> => {
+  try {
+    const res = await fetch(GAMES_API_URL);
+    if (!res.ok) throw new Error(`Failed to fetch games: ${res.statusText}`);
+    const data: Game[] = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error; // Giữ lại lỗi để có thể xử lý ở nơi khác
+  }
 };
 
-export const getGamesByCategory = async (category: string) => {
+// Lấy games theo thể loại
+export const getGamesByCategory = async (category: string): Promise<Game[]> => {
   const url = import.meta.env.DEV
     ? `https://www.freetogame.com/api/games?category=${category}`
     : `/api/games?category=${category}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Failed to fetch games");
-  const data = await res.json();
-  return data;
+  
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to fetch games by category: ${res.statusText}`);
+    const data: Game[] = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error; // Giữ lại lỗi để có thể xử lý ở nơi khác
+  }
 };
 
-export const getGamesByPlatform = async (platform: string) => {
+// Lấy games theo nền tảng
+export const getGamesByPlatform = async (platform: string): Promise<Game[]> => {
   const url = import.meta.env.DEV
     ? `https://www.freetogame.com/api/games?platform=${platform}`
     : `/api/games?platform=${platform}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Failed to fetch games");
-  return res.json();
+  
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed to fetch games by platform: ${res.statusText}`);
+    const data: Game[] = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error; // Giữ lại lỗi để có thể xử lý ở nơi khác
+  }
 };
